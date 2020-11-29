@@ -11,7 +11,6 @@ describe('button按钮测试用例', () => {
         axeButton: AxeButton
       }
     }).mount(container)
-    console.log(app, 111, app.$el)
     let html = app.$el
     expect(html).to.match('button')
   })

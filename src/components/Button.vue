@@ -14,12 +14,35 @@
       <axe-button disabled icon="axe-icon-jianhao">disabled</axe-button>
       <axe-button :loading="true">加载中</axe-button>
     </div>
+    <p class="demo-title">button native - type</p>
+    <div>
+      <axe-button @click="hanleClick1" nativeType="button"
+        >nativeType 为button</axe-button
+      >
+      <form action="/index">
+        姓名 <input type="text" />
+        <axe-button @click="hanleClick2" nativeType="submit">submit</axe-button>
+      </form>
+      <form action="/">
+        姓名 <input type="text" />
+        <axe-button @click="hanleClick2" nativeType="reset">reset</axe-button>
+      </form>
+    </div>
   </div>
 </template>
 
 <script>
 export default {
-  name: 'Button'
+  name: 'Button',
+  methods: {
+    hanleClick2() {},
+    hanleClick(val) {
+      console.log(val)
+    },
+    hanleClick3() {
+      console.log('')
+    }
+  }
 }
 </script>
 

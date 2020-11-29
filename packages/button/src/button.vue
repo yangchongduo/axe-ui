@@ -1,5 +1,11 @@
 <template>
-  <button :class="classify" :disabled="disabled || loading">
+  <button
+    @click="handleClick"
+    :type="nativeType"
+    :class="classify"
+    :disabled="disabled || loading"
+    :types="nativeType"
+  >
     <!-- 类名设置统一为“axe-”的前缀 -->
     <i :class="['icon', icon]" v-if="icon && !loading" />
     <i class="icon axe-icon-loading" v-if="!icon && loading" />
@@ -20,14 +26,14 @@ export default {
       type: String,
       default: 'default',
       validator(type) {
-        if (!typeArray.includes(type)) {
-          throw Error(
-            '类型“type”参数值错误，值只能是' +
-              typeArray.join('、') +
-              '中的一种。'
-          )
-        }
-        return true
+        return typeArray.includes(type)
+      }
+    },
+    nativeType: {
+      type: String,
+      default: 'button',
+      validator(type) {
+        return ['button', 'submit', 'reset'].includes(type)
       }
     },
     icon: String,
@@ -37,24 +43,24 @@ export default {
       default: 'left',
       require: false,
       validator(type) {
-        if (!positionArray.includes(type)) {
-          throw Error(`
-            类型“position”参数值错误，值只能是
-            ${positionArray.join('、')}
-            中的一种。
-          `)
-        }
+        return positionArray.includes(type)
       }
     },
     disabled: Boolean
   },
-  setup(props) {
+  emits: ['click'],
+  setup(props, ctx) {
+    const handleClick = evt => {
+      ctx.emit('click', evt)
+    }
     const classify = computed(() => [
       'axe-button',
       `axe-button-${props.type}`,
       props.icon && `axe-button-${props.position}`
     ])
+
     return {
+      handleClick,
       classify
     }
   }
